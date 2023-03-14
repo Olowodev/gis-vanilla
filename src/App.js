@@ -8,14 +8,21 @@ import data from './media/dbag.json'
 import { AmbientLight, DirectionalLight, sRGBEncoding, Vector3 } from 'three'
 import axios from 'axios'
 
-// mapboxgl.accessToken = "pk.eyJ1Ijoib2xvd29hIiwiYSI6ImNsZjNyMndhcTBnNm8zcm50cmFkZzI1NXAifQ.sUHuNAw9DIe1ATZcaV_ETg"
+mapboxgl.accessToken = "pk.eyJ1Ijoib2xvd29hIiwiYSI6ImNsZjNyMndhcTBnNm8zcm50cmFkZzI1NXAifQ.sUHuNAw9DIe1ATZcaV_ETg"
 
 const init =async () => {
+  const div = document.getElementById('map')
+const map = new mapboxgl.Map({
+    container: div,
+  style: "mapbox://styles/mapbox/streets-v11",
+  center: [5.38764, 52.15616],
+  zoom: 18
+})
   const scene = new THREE.Scene()
 
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.0001, 4000)
   // camera.position.z = 5
-  camera.position.set(1,1,5)
+  camera.position.set(1,100,200)
   camera.up.set(0,0,1)
 
   const ambientLight = new AmbientLight( 0x666666, 0.7)
@@ -79,14 +86,18 @@ const loader = new CityJSONLoader( parser )
 
 
 
-const renderer = new THREE.WebGLRenderer({ antialias: true })
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
 
 renderer.setSize( window.innerWidth, window.innerHeight )
 renderer.setPixelRatio(window.devicePixelRatio)
-renderer.setAnimationLoop(animation)
-renderer.setClearColor('#1c1c1c')
+// renderer.setAnimationLoop(animation)
+// renderer.setClearColor(0xffffff, 0)
+// renderer.domElement.style.position = 'absolute'
+// renderer.domElement.style.top = 0
+// renderer.domElement.style.zIndex = 1
 renderer.outputEncoding = sRGBEncoding
 document.body.appendChild(renderer.domElement)
+// map.getCanvasContainer().appendChild(renderer.domElement)
 const controls = new OrbitControls( camera, renderer.domElement );
 	controls.screenSpacePanning = false;
 	controls.enableDamping = true;
@@ -96,13 +107,19 @@ const controls = new OrbitControls( camera, renderer.domElement );
   console.log(data)
     loader.load(data)
 
+    // const [minX, minY, minZ, maxX, maxY, maxZ] = data.metadata.geographicalExtent
+    // const bounds = [[minX, minY], [maxX, maxY]]
+    // map.fitBounds(bounds, {padding: 20})
+
     const bbox = loader.boundingBox.clone()
     bbox.applyMatrix4( loader.matrix )
 
 
-    fitCameraToSelection( camera, controls, bbox )
+    // fitCameraToSelection( camera, controls, bbox )
 
     scene.add(loader.scene)
+
+    
 
     console.log(scene)
 function fitCameraToSelection( camera, controls, box, fitOffset = 1.2 ) {
@@ -158,19 +175,37 @@ resize()
 
 window.addEventListener('resize', resize)
 
-function animation(time) {
-  controls.update()
-  renderer.render(scene, camera)
-}
+// function animation(time) {
+//   controls.update()
+//   renderer.render(scene, camera)
+// }
+
+map.on('load', () => {
+  map.addLayer({
+    id: 'customLayer',
+    type: 'custom',
+    renderingMode: '3d',
+    onAdd: (map, mbxContext) => {
+      renderer.setClearColor(mbxContext.getClearColor())
+      renderer.setPixelRatio(window.devicePixelRatio)
+      renderer.setSize(map.getCanvas().width, map.getCanvas().height)
+
+      const canvas = renderer.domElement
+      canvas.style.position = 'absolute'
+      canvas.style.top = 0
+      canvas.style.left = 0
+
+      mbxContext.container.appendChild(canvas)
+    },
+    render: (gl, matrix) => {
+      renderer.state.reset()
+      renderer.render(scene, camera)
+    }
+  })
+})
 
 
-const div = document.getElementById('map')
-// const map = new mapboxgl.Map({
-//     container: div,
-//   style: "mapbox://styles/mapbox/streets-v11",
-//   center: [5.38764, 52.15616],
-//   zoom: 18
-// })
+
 }
 
 init()

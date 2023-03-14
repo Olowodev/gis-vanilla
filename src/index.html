@@ -8,12 +8,31 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css"
       rel="stylesheet"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css" />
     <title>Document</title>
 </head>
 <body>
-    <!-- <div id="map"></div> -->
+  <div id="container">
+    <div id="menu">
+      <h3>LIST VIEW</h3>
 
-    <script src="./App.js" type="module"></script>
+      <div class="options">
+        <div id="option1" class="option">
+          <p>First Data</p>
+        </div>
+        <div id="option2" class="option">
+          <p>Second Data</p>
+        </div>
+      </div>
+    </div>
+      <div id="map"></div>
+  </div>
+  
+    
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnzlq9yYSHWTqiw3BHC_utiL60Adf5MCI&callback=initMap"></script>
+    <script src="./App3.js" type="module"></script>
 </body>
 </html>

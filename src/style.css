@@ -1,6 +1,10 @@
+#container {
+    display: flex;
+}
+
 #map {
     height: 100vh;
-    width: 100vw;
+    flex: 1;
 }
 
 * {
@@ -10,4 +14,30 @@
 
 body {
     margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+#menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    flex: 0.2;
+}
+
+#menu h3 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+}
+
+.option {
+    padding: 20px;
+    background-color: white;
+    font-size: 18px;
+    cursor: pointer;
 }
