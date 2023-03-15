@@ -197,4 +197,5 @@ buildMap(selected)
 }
 
 
-initMap()
+      window.initMap = initMap
+      initMap()
