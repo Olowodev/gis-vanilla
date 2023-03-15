@@ -5,8 +5,6 @@
 It is a project demonstrating the use of webgl to create interactive maps for GIS purpose.\
 The project uses ThreeJS a webgl library with google maps api to achieve this purpose.
 
-Visit [https://gis-threejs.netlify.app](https://gis-threejs.netlify.app) to view the project and interact with the map.
-
 ## Available Scripts
 
 In the project directory, you should run:
