@@ -43,5 +43,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "@parcel/transformer-css": {
+    "cssModules": true,
+    "drafts": {
+      "nesting": true,
+      "customMedia": true
+    },
+    "pseudoClasses": {
+      "focusVisible": "focus-visible"
+    }
   }
+
 }
