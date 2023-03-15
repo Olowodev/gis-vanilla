@@ -197,5 +197,4 @@ buildMap(selected)
 }
 
 
-window.initMap = initMap
 initMap()
