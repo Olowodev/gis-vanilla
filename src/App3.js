@@ -5,6 +5,13 @@ import data2 from './media/dbag2.json'
 import * as THREE from "three"
 // import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader"
 import proj4 from "proj4"
+import { Loader } from "@googlemaps/js-api-loader"
+
+
+const loader = new Loader({
+  apiKey: "AIzaSyAnzlq9yYSHWTqiw3BHC_utiL60Adf5MCI",
+  version: "weekly"
+})
 
 function initMap() {
   
@@ -197,5 +204,8 @@ buildMap(selected)
 }
 
 
-      window.initMap = initMap
+      // window.initMap = initMap
+      loader.load().then(()=> {
+
       initMap()
+    })
